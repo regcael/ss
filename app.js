@@ -239,9 +239,13 @@ window.renderReportView = function() {
                </div>
             </div>
 
-            <div>
-              <a href="mailto:leah.services@gmail.com?subject=Regina%20Caeli%20Pro%20Upgrade%20Payment&body=Hi%20Leah!%20I%20have%20completed%20the%20%E2%82%B9399%20Pro%20upgrade%20payment%20for%20the%20Regina%20Caeli%20Study%20Suite.%0A%0AHere%20is%20my%20payment%20screenshot%20and%20transaction%20ID%3A%0A%0A[ENTER TRANSACTION ID HERE]" class="block w-full max-w-sm mx-auto md:mx-0 bg-slate-900 hover:bg-slate-800 text-white font-bold px-8 py-4 rounded-xl shadow transition text-sm text-center">
-                ✨ I've Paid via UPI (Send Email)
+          <div>
+              <p class="text-sm sm:text-base text-rose-600 bg-rose-50 p-3 rounded-lg border border-rose-200 font-extrabold text-center uppercase tracking-wider mb-3 shadow-sm">
+                ⚠️ Requires BOTH Transaction ID & Screenshot
+              </p>
+              <a href="mailto:firstreginacaeli@gmail.com?subject=Regina%20Caeli%20Pro%20Upgrade%20Payment&body=Hi%20Leah!%20I%20have%20completed%20the%20%E2%82%B9399%20Pro%20upgrade.%0A%0AMY%20TRANSACTION%20ID:%20[ENTER HERE]%0A%0A*** I HAVE ATTACHED THE PAYMENT SCREENSHOT TO THIS EMAIL ***" 
+                 class="block w-full max-w-sm mx-auto md:mx-0 bg-slate-900 hover:bg-slate-800 text-white font-bold px-8 py-4 rounded-xl shadow transition text-sm text-center">
+                ✨ I've Paid (Attach Screenshot & Send)
               </a>
             </div>
           </div>
