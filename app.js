@@ -526,26 +526,42 @@ function completeSprint() {
 
   let activityName = currentActivity;
   if(currentActivity === 'Custom Study Sprint') {
-    const customName = document.getElementById('customActivityName').value.trim();
-    if(customName) activityName = `Custom: ${customName}`;
+    const customName = document.getElementById('customActivityName');
+    const customVal = customName && customName.value.trim() !== '' ? customName.value.trim() : 'Custom Sprint';
+    activityName = `Custom: ${customVal}`;
   }
+
+  // Get current session duration in minutes based on durationMs
+  const sessionMinutes = Math.round(durationMs / 60000);
   
   const now = new Date();
   const dateStr = `${now.getDate().toString().padStart(2, '0')}/${(now.getMonth()+1).toString().padStart(2, '0')}/${now.getFullYear()} ${now.getHours().toString().padStart(2, '0')}:${now.getMinutes().toString().padStart(2, '0')}`;
 
-  logs.unshift({
-    date: dateStr,
-    subject: activeSubject,
-    activity: activityName,
-    xp: currentActivityXp
-  });
+  // Check if the most recent log entry was created within the last minute (auto-chained sprint)
+  // If so, we merge them so continuous focus accumulates!
+  if (logs.length > 0 && logs[0].subject === activeSubject && logs[0].activity === activityName) {
+    // Accumulate duration and XP on the latest log
+    logs[0].durationMins = (logs.0.durationMins || 15) + sessionMinutes;
+    logs[0].xp += currentActivityXp;
+  } else {
+    // Otherwise, create a new log entry
+    logs.unshift({
+      date: dateStr,
+      subject: activeSubject,
+      activity: activityName,
+      durationMins: sessionMinutes,
+      xp: currentActivityXp
+    });
+  }
   
   xp += currentActivityXp;
   updateStatsUI();
   renderReportView();
-  
+  // Calculate total hours invested from actual accumulated minutes across all logs
+const totalMinutes = logs.reduce((acc, l) => acc + (l.durationMins || 15), 0);
+const totalHours = (totalMinutes / 60).toFixed(1);
   const toast = document.getElementById('actionToast');
-  document.getElementById('actionToastMsg').textContent = `✨ Sprint Completed! +${currentActivityXp} XP (${activeSubject} - ${activityName})`;
+  document.getElementById('actionToastMsg').textContent = `✨ Sprint Completed! +${currentActivityXp} XP (${sessionMinutes}m logged)`;
   toast.classList.remove('hidden');
   setTimeout(() => toast.classList.add('hidden'), 3200);
   
@@ -557,6 +573,3 @@ function completeSprint() {
   resetTimerDisplay();
   document.getElementById('startSprintBtn').onclick(); 
 }
-
-resetTimerDisplay();
-window.updateLiveBadge();
