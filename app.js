@@ -78,11 +78,9 @@ window.renderReportView = function() {
   if (!reportTab) return;
 
   if (isProUnlocked) {
-    // Calculate total hours invested from actual accumulated minutes across all logs
     const totalMinutes = logs.reduce((acc, l) => acc + (l.durationMins || 15), 0);
     const totalHours = (totalMinutes / 60).toFixed(1);
     
-    // Extract unique subjects & activities dynamically from logs
     const uniqueSubjects = Array.from(new Set(logs.map(l => l.subject))).filter(Boolean);
     const subjectInput = document.getElementById('customSubjectInput');
     const currentTypedSub = subjectInput && subjectInput.value.trim() !== '' ? subjectInput.value.trim() : currentSubject;
@@ -95,7 +93,6 @@ window.renderReportView = function() {
       if (!uniqueActivities.includes(act)) uniqueActivities.push(act);
     });
 
-    // Filter logs based on selected filters
     const filteredLogs = logs.filter(l => {
       const matchSub = selectedSubjectFilter === 'All Papers / Subjects' || l.subject === selectedSubjectFilter;
       const matchAct = selectedActivityFilter === 'All Activity Types' || l.activity === selectedActivityFilter;
@@ -115,7 +112,6 @@ window.renderReportView = function() {
           </div>
         </div>
 
-        <!-- Dynamic Filters -->
         <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
           <div>
             <label class="block text-xs font-bold text-slate-400 uppercase mb-1">Filter by Subject Paper</label>
@@ -133,7 +129,6 @@ window.renderReportView = function() {
           </div>
         </div>
 
-        <!-- Stats Grid -->
         <div class="grid grid-cols-2 sm:grid-cols-4 gap-4 pt-2">
           <div class="bg-slate-50/70 border border-slate-200 rounded-2xl p-4 text-center">
             <p class="text-[10px] font-extrabold text-slate-400 uppercase tracking-widest">Total XP Earned</p>
@@ -153,7 +148,6 @@ window.renderReportView = function() {
           </div>
         </div>
 
-        <!-- Subject Breakdown -->
         <div class="space-y-3 pt-2">
           <h4 class="text-xs font-extrabold uppercase tracking-widest text-slate-500">📈 Subject Breakdown & Trends</h4>
           <div class="space-y-3 bg-slate-50/50 p-4 rounded-2xl border border-slate-100">
@@ -176,7 +170,6 @@ window.renderReportView = function() {
           </div>
         </div>
 
-        <!-- Activity Log History -->
         <div class="space-y-3 pt-2">
           <div class="flex justify-between items-center">
             <h4 class="text-xs font-extrabold uppercase tracking-widest text-slate-500">🗂️ Activity Log History</h4>
@@ -210,6 +203,58 @@ window.renderReportView = function() {
           </div>
         </div>
 
+      </div>
+    `;
+  } else {
+    reportTab.innerHTML = `
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-6 bg-gradient-to-br from-rose-50 via-fuchsia-50 to-indigo-50 rounded-3xl p-6 sm:p-8 shadow-md border-2 border-rose-200">
+        <div class="flex flex-col justify-center space-y-5 text-center md:text-left order-1 md:order-1">
+          <div>
+            <span class="text-xs font-extrabold uppercase tracking-widest bg-amber-100 text-amber-800 px-3 py-1 rounded-full border border-amber-200 inline-block mb-2">
+              Exclusive Pro Preview
+            </span>
+            <h3 class="text-2xl sm:text-3xl font-extrabold text-slate-800">Unlock Analytics Pro</h3>
+            <p class="text-sm text-slate-600 leading-relaxed mt-2">
+              Get weekly/monthly analytics, custom date ranges, visual subject breakdown charts, and complete history logs.
+            </p>
+          </div>
+          
+          <div class="pt-2 space-y-4">
+            <span class="inline-block bg-rose-500 text-white font-extrabold px-6 py-3 rounded-2xl shadow-sm text-base text-center w-full max-w-sm mx-auto md:mx-0">
+              One-Time Fee • ₹399 only
+            </span>
+            
+            <div class="bg-white p-5 rounded-2xl border border-slate-200 shadow-sm max-w-sm mx-auto md:mx-0 space-y-4 text-center">
+               <p class="text-xs font-bold text-slate-500 uppercase tracking-widest">Scan or Copy UPI</p>
+               
+               <div class="relative inline-block">
+                 <img src="1000187211.jpg" alt="UPI QR Code" class="w-40 h-40 mx-auto object-contain rounded-xl border border-slate-100 shadow-sm">
+               </div>
+               
+               <div class="bg-slate-50 border border-slate-200 rounded-xl p-2 flex items-center justify-between gap-3 text-left">
+                  <span class="text-sm font-bold text-slate-700 font-mono ml-2 truncate" id="upiIdText">reginacaeli@sbi</span>
+                  <button onclick="window.copyUpiId()" class="bg-rose-100 hover:bg-rose-200 text-rose-600 px-4 py-2 rounded-lg text-xs font-bold transition flex-shrink-0">
+                    Copy ID
+                  </button>
+               </div>
+            </div>
+
+            <div>
+              <a href="mailto:leah.services@gmail.com?subject=Regina%20Caeli%20Pro%20Upgrade%20Payment&body=Hi%20Leah!%20I%20have%20completed%20the%20%E2%82%B9399%20Pro%20upgrade%20payment%20for%20the%20Regina%20Caeli%20Study%20Suite.%0A%0AHere%20is%20my%20payment%20screenshot%20and%20transaction%20ID%3A%0A%0A[ENTER TRANSACTION ID HERE]" class="block w-full max-w-sm mx-auto md:mx-0 bg-slate-900 hover:bg-slate-800 text-white font-bold px-8 py-4 rounded-xl shadow transition text-sm text-center">
+                ✨ I've Paid via UPI (Send Email)
+              </a>
+            </div>
+          </div>
+        </div>
+
+        <div class="relative flex items-center justify-center order-2 md:order-2">
+          <div class="w-full bg-white rounded-2xl p-2 shadow-inner border border-rose-100 overflow-hidden group">
+            <div class="absolute inset-x-0 bottom-0 h-32 bg-gradient-to-t from-white via-white/70 to-transparent z-10 flex flex-col items-center justify-end pb-4 pointer-events-none opacity-0 group-hover:opacity-100 transition duration-300">
+               <p class="text-xs font-extrabold text-slate-700 pointer-events-auto shadow-sm bg-white/90 px-3 py-1.5 rounded-full">✨ Pro Dashboard Preview ✨</p>
+            </div>
+            <img src="1000187223.png" alt="Pro Dashboard Preview" class="w-full h-auto rounded-xl object-cover hover:scale-[1.02] transition-transform duration-500 cursor-pointer" onclick="window.open(this.src, '_blank')">
+          </div>
+        </div>
       </div>
     `;
   }
@@ -508,7 +553,8 @@ document.getElementById('pauseSprintBtn').onclick = () => {
 document.getElementById('resumeSprintBtn').onclick = () => {
   isPaused = false;
   document.getElementById('resumeSprintBtn').classList.add('hidden');
-  document.getElementById('pauseSprintBtn').classList.remove('hidden');
+  document.getElementById('pauseSprintBtn').classList.add('hidden');
+  document.getElementById('pauseSprintBtn').classList.remove('hidden'); // fix
   document.getElementById('hourglassStatusText').textContent = 'Sand Flowing...';
   const stream = document.getElementById('sandStream');
   if (stream) stream.style.opacity = '1';
@@ -544,7 +590,6 @@ function completeSprint() {
   const now = new Date();
   const dateStr = `${now.getDate().toString().padStart(2, '0')}/${(now.getMonth()+1).toString().padStart(2, '0')}/${now.getFullYear()} ${now.getHours().toString().padStart(2, '0')}:${now.getMinutes().toString().padStart(2, '0')}`;
 
-  // Check if the most recent log entry matches the current subject & activity (auto-chained sprint)
   if (logs.length > 0 && logs[0].subject === activeSubject && logs[0].activity === activityName) {
     logs[0].durationMins = (logs[0].durationMins || 15) + sessionMinutes;
     logs[0].xp += currentActivityXp;
