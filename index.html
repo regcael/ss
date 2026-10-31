@@ -1,0 +1,285 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Regina Caeli | Study & Focus Tracker Pro</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Playfair+Display:ital,wght@0,600;0,700;1,600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body class="min-h-screen flex flex-col justify-between relative">
+
+  <div class="rc-watermark-layer" id="watermarkLayer"></div>
+
+  <div id="actionToast" class="fixed bottom-24 right-5 z-50 hidden bg-white text-slate-700 px-6 py-4 rounded-2xl shadow-xl border border-rose-100 font-bold flex items-center gap-3 text-sm transition-all duration-300">
+    <span class="text-lg">✨</span>
+    <span id="actionToastMsg">Action Logged.</span>
+  </div>
+
+  <a href="https://wa.me/?text=Hi%20Leah!%20I%20have%20completed%20the%20₹399%20Pro%20upgrade%20payment%20for%20the%20Regina%20Caeli%20Study%20Suite.%20Here%20is%20my%20payment%20screenshot:" 
+     target="_blank" 
+     class="fixed bottom-5 right-5 z-50 bg-emerald-500 hover:bg-emerald-600 text-white p-3.5 rounded-full shadow-2xl flex items-center justify-center transition-all duration-300 hover:scale-110 group"
+     title="Contact Leah on WhatsApp after payment">
+    <span class="text-2xl">💬</span>
+  </a>
+
+  <!-- AUTH SCREEN -->
+  <div id="authScreen" class="fixed inset-0 z-50 bg-[#fdfafb] flex flex-col sm:justify-center p-4 overflow-y-auto">
+    <div class="bg-white mx-auto rounded-3xl max-w-md w-full p-6 sm:p-8 shadow-xl border border-rose-100 text-center space-y-4 my-auto max-h-[95vh] overflow-y-auto">
+      <div class="flex justify-center mb-2">
+        <div class="w-20 h-20 rounded-2xl shadow-md border border-amber-200 bg-black flex items-center justify-center text-3xl">👑</div>
+      </div>
+      <div>
+        <span class="text-xs font-extrabold uppercase tracking-widest bg-fuchsia-50 text-fuchsia-600 px-3.5 py-1.5 rounded-full border border-fuchsia-200">
+          Regina Caeli • You First
+        </span>
+        <h2 class="text-2xl font-extrabold text-slate-800 mt-2">Welcome Student! ✨</h2>
+        <p class="text-xs text-slate-500 mt-1">Sign in with Google or use email to access your free-forever study tracker.</p>
+      </div>
+
+      <button id="googleSignInBtn" class="w-full bg-white hover:bg-slate-50 border-2 border-slate-200 text-slate-700 font-bold py-3.5 rounded-xl shadow-sm transition flex items-center justify-center gap-3 text-sm">
+        <svg class="w-5 h-5" viewBox="0 0 24 24">
+          <path fill="#4285F4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"/>
+          <path fill="#34A853" d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"/>
+          <path fill="#FBBC05" d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.06H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.94l2.85-2.22.81-.63z"/>
+          <path fill="#EA4335" d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.06l3.66 2.84c.87-2.6 3.3-4.52 6.16-4.52z"/>
+        </svg>
+        <span>Sign in with Google (Recommended)</span>
+      </button>
+
+      <div class="relative flex py-2 items-center">
+        <div class="flex-grow border-t border-slate-200"></div>
+        <span class="flex-shrink mx-4 text-xs font-bold text-slate-400 uppercase tracking-widest">or email</span>
+        <div class="flex-grow border-t border-slate-200"></div>
+      </div>
+
+      <div class="space-y-3 text-left">
+        <div>
+          <label class="block text-xs font-bold text-slate-500 mb-1">Email Address</label>
+          <input id="authEmail" type="email" placeholder="student@university.com" class="w-full bg-slate-50 border border-slate-200 rounded-xl px-4 py-3 text-sm text-slate-700 focus:outline-none focus:border-rose-300 font-medium">
+        </div>
+        <div>
+          <div class="flex justify-between items-center mb-1">
+            <label class="text-xs font-bold text-slate-500">Password</label>
+            <button type="button" id="forgotPasswordBtn" class="text-xs text-rose-500 font-bold hover:underline">Forgot password?</button>
+          </div>
+          <input id="authPassword" type="password" placeholder="••••••••" class="w-full bg-slate-50 border border-slate-200 rounded-xl px-4 py-3 text-sm text-slate-700 focus:outline-none focus:border-rose-300 font-medium">
+        </div>
+      </div>
+
+      <div id="tosCheckboxContainer" class="flex items-start gap-2.5 pt-1 transition-all duration-300">
+        <input type="checkbox" id="agreeTosCheckbox" class="mt-1 w-4 h-4 text-rose-500 rounded border-slate-300 focus:ring-rose-400">
+        <label for="agreeTosCheckbox" class="text-xs text-slate-600 leading-tight">
+          I agree to the Terms of Service and Privacy Policy.
+        </label>
+      </div>
+
+      <div class="space-y-2 pt-2">
+        <button id="emailSignUpBtn" class="w-full bg-rose-400 hover:bg-rose-500 text-white font-bold py-3.5 rounded-xl shadow transition text-sm">🚀 Create Free Account</button>
+        <button id="emailLogInBtn" class="w-full bg-slate-100 hover:bg-slate-200 text-slate-700 font-bold py-3.5 rounded-xl transition text-sm">🔑 Log In to Existing Account</button>
+      </div>
+      <p id="authErrorMsg" class="text-xs text-rose-500 font-bold hidden"></p>
+    </div>
+  </div>
+
+  <main class="max-w-3xl mx-auto w-full px-4 pt-8 pb-14 relative z-10">
+    <div class="mb-5 px-2 flex items-center justify-between">
+      <div class="flex items-center gap-3">
+        <div class="w-12 h-12 rounded-xl shadow-sm border border-amber-200 bg-black flex-shrink-0 flex items-center justify-center text-xl">👑</div>
+        <div>
+          <span class="text-xs font-extrabold uppercase tracking-widest bg-fuchsia-50 text-fuchsia-600 px-3 py-1 rounded-full border border-fuchsia-200">
+            Regina Caeli • Free Edition
+          </span>
+          <h1 class="text-2xl sm:text-3xl font-extrabold text-slate-800 mt-1">
+            Study & Focus Tracker <span class="font-serif-brand italic font-normal text-slate-400">✨</span>
+          </h1>
+        </div>
+      </div>
+      <div class="flex items-center gap-2">
+        <button id="logoutBtn" class="bg-white border border-slate-200 text-slate-600 font-bold px-3 py-2 rounded-2xl text-xs shadow-sm hover:bg-slate-50 transition" title="Click to Log Out">
+          Account
+        </button>
+        <div id="stickyXpBadge" class="bg-white border border-rose-200 text-rose-500 font-extrabold px-4 py-2 rounded-2xl text-sm shadow-sm flex items-center gap-1.5 transition-all duration-300">
+          ⭐ <span id="stickyXpText">0 XP</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- TABS NAVIGATION -->
+    <div class="flex gap-3 mb-6 bg-white p-2 rounded-2xl border border-rose-100 shadow-sm text-sm font-bold">
+      <button id="tabTrackerBtn" onclick="window.switchTab('tracker')" class="flex-1 py-3 px-5 rounded-xl transition bg-rose-400 text-white shadow-sm">
+        🎯 Active Tracker
+      </button>
+      <button id="tabReportBtn" onclick="window.switchTab('report')" class="flex-1 py-3 px-5 rounded-xl transition text-slate-600 hover:bg-slate-50 flex items-center justify-center gap-1.5">
+        <span>📊 Progress & Trends</span>
+        <span class="bg-amber-100 text-amber-800 text-[10px] font-extrabold px-2 py-0.5 rounded-full">PRO ₹399</span>
+      </button>
+    </div>
+
+    <!-- TRACKER CONTENT -->
+    <div id="tabTrackerContent" class="space-y-6">
+      <section class="bg-white rounded-3xl p-6 shadow-sm border border-rose-100">
+        <h3 class="text-xs font-extrabold uppercase tracking-wider text-slate-500 mb-3.5">Daily Prep & Habit Check-ins</h3>
+        <div class="grid grid-cols-1 sm:grid-cols-3 gap-3.5">
+          <button onclick="logHabitXP('Water Bottle Filled', 10, '💧 Water bottle filled')" class="bg-rose-50/60 hover:bg-rose-100/60 border border-rose-200 p-4 rounded-2xl text-left transition flex items-center justify-between">
+            <div>
+              <p class="font-bold text-slate-700">Water Bottle Filled</p>
+              <p class="text-xs text-rose-500 font-extrabold mt-1">+10 XP</p>
+            </div>
+            <span class="text-2xl">💧</span>
+          </button>
+          <button onclick="logHabitXP('Get Desk Ready', 10, '🗂️ Desk prepared')" class="bg-amber-50/60 hover:bg-amber-100/60 border border-amber-200 p-4 rounded-2xl text-left transition flex items-center justify-between">
+            <div>
+              <p class="font-bold text-slate-700">Get Desk Ready</p>
+              <p class="text-xs text-amber-600 font-extrabold mt-1">+10 XP</p>
+            </div>
+            <span class="text-2xl">🗂️</span>
+          </button>
+          <button onclick="logHabitXP('Put Everything Back', 10, '📦 Put everything back')" class="bg-emerald-50/60 hover:bg-emerald-100/60 border border-emerald-200 p-4 rounded-2xl text-left transition flex items-center justify-between">
+            <div>
+              <p class="font-bold text-slate-700">Put Everything Back</p>
+              <p class="text-xs text-emerald-600 font-extrabold mt-1">+10 XP</p>
+            </div>
+            <span class="text-2xl">📦</span>
+          </button>
+        </div>
+      </section>
+
+      <section class="bg-white rounded-3xl p-6 shadow-sm border border-rose-100">
+        <h3 class="text-xs font-extrabold uppercase tracking-wider text-slate-500 mb-3.5">1. Enter Your Subject</h3>
+        <input id="customSubjectInput" type="text" oninput="updateSubject(this.value)" placeholder="e.g., General Studies..." 
+               class="w-full bg-slate-50 border-2 border-rose-200 rounded-2xl px-4 py-3.5 text-slate-800 focus:outline-none focus:border-rose-400 font-bold text-base">
+      </section>
+
+      <section>
+        <h3 class="text-xs font-extrabold uppercase tracking-wider text-slate-500 mb-3">2. Select Activity Key Focus</h3>
+        <div class="grid grid-cols-2 sm:grid-cols-4 gap-3.5">
+          <button onclick="selectActivity('Reading', 20)" id="act-Reading" class="act-btn bg-white text-slate-700 font-bold p-4.5 rounded-2xl border-2 border-emerald-300 shadow-sm transition text-left flex flex-col justify-between">
+            Reading <span class="text-emerald-600 text-xs mt-1">+20 XP</span>
+          </button>
+          <button onclick="selectActivity('Lecture', 30)" id="act-Lecture" class="act-btn bg-white text-slate-700 font-bold p-4.5 rounded-2xl border border-slate-200 transition text-left flex flex-col justify-between">
+            Lecture <span class="text-blue-600 text-xs mt-1">+30 XP</span>
+          </button>
+          <button onclick="selectActivity('Problem Solving', 30)" id="act-Problem Solving" class="act-btn bg-white text-slate-700 font-bold p-4.5 rounded-2xl border border-slate-200 transition text-left flex flex-col justify-between">
+            Problem Solving <span class="text-amber-600 text-xs mt-1">+30 XP</span>
+          </button>
+          <button onclick="selectActivity('Custom Study Sprint', 20)" id="act-Custom Study Sprint" class="act-btn bg-white text-slate-700 font-bold p-4.5 rounded-2xl border border-slate-200 transition text-left flex flex-col justify-between col-span-2 sm:col-span-1">
+            Custom Sprint <span class="text-indigo-600 text-xs mt-1">+20 XP</span>
+          </button>
+        </div>
+      </section>
+
+      <section id="customActivityInputSection" class="hidden bg-white rounded-3xl p-6 shadow-sm border border-indigo-200">
+        <label class="text-xs font-extrabold uppercase tracking-wider text-indigo-500 mb-2 block">Name Your Custom Sprint</label>
+        <input id="customActivityName" type="text" placeholder="e.g., Organizing Notes, Flashcard Review..." class="w-full bg-slate-50 border border-indigo-200 rounded-xl px-4 py-3 text-slate-800 focus:outline-none focus:border-indigo-400 font-bold text-sm">
+      </section>
+
+      <section class="bg-white rounded-3xl p-6 shadow-sm border border-rose-100 relative overflow-hidden text-center space-y-5">
+        <div class="flex flex-col sm:flex-row items-center justify-between gap-3 pt-2">
+          <span class="text-xs font-extrabold bg-rose-50 text-rose-600 px-3.5 py-1.5 rounded-full border border-rose-200 uppercase tracking-wider">
+            ⏳ Focus Sprint
+          </span>
+          <select id="timerDurationSelect" class="bg-slate-50 border border-slate-200 text-slate-700 text-xs font-bold rounded-xl px-3 py-2 focus:outline-none">
+            <option value="15">15 Min (Micro Sprint)</option>
+            <option value="20">20 Min (Preset Focus)</option>
+            <option value="25">25 Min (Pomodoro)</option>
+            <option value="45">45 Min (Deep Work)</option>
+            <option value="custom">Custom Minutes...</option>
+          </select>
+        </div>
+
+        <div id="hourglassContainer" class="py-2 flex flex-col items-center justify-center relative">
+          
+          <div id="hourglassIcon" class="w-24 h-24 mb-2 transition-transform duration-700 relative flex items-center justify-center">
+            <svg viewBox="0 0 100 100" class="w-full h-full drop-shadow-md">
+              <path d="M 25 10 L 75 10 L 75 18 L 52 48 L 75 82 L 75 90 L 25 90 L 25 82 L 48 48 L 25 18 Z" fill="none" stroke="#d97706" stroke-width="4" stroke-linejoin="round"/>
+              <rect x="20" y="6" width="60" height="6" rx="3" fill="#b45309"/>
+              <rect x="20" y="88" width="60" height="6" rx="3" fill="#b45309"/>
+              <path d="M 28 14 L 72 14 L 50 45 Z" fill="#fef3c7" opacity="0.6"/>
+              <path d="M 50 55 L 72 86 L 28 86 Z" fill="#fef3c7" opacity="0.6"/>
+              <polygon id="topSandPoly" points="28,14 72,14 50,45" fill="#f59e0b" />
+              <polygon id="bottomSandPoly" points="28,86 72,86 72,86 28,86" fill="#f59e0b" />
+              <line id="sandStream" x1="50" y1="45" x2="50" y2="55" stroke="#f59e0b" stroke-width="2.5" stroke-dasharray="2,3" opacity="0" class="transition-opacity duration-300"/>
+            </svg>
+          </div>
+
+          <div class="mt-3 bg-slate-50 border border-slate-200 rounded-2xl px-6 py-3 inline-block">
+            <span id="hourglassTimerText" class="text-3xl font-black text-rose-500 tracking-wider">15:00</span>
+            <p id="hourglassStatusText" class="text-xs font-bold text-slate-400 mt-1 uppercase tracking-widest">Ready to Flow</p>
+          </div>
+        </div>
+
+        <div class="grid grid-cols-2 sm:grid-cols-3 gap-3 pt-2">
+          <button id="startSprintBtn" class="col-span-2 sm:col-span-3 bg-rose-400 hover:bg-rose-500 text-white font-bold py-4 px-6 rounded-xl shadow-sm transition text-base active:scale-[0.98]">
+            ▶ Start Sprint
+          </button>
+          <button id="pauseSprintBtn" class="hidden bg-amber-100 hover:bg-amber-200 text-amber-700 font-bold py-4 px-4 rounded-xl transition text-sm">
+            ⏸ Pause
+          </button>
+          <button id="resumeSprintBtn" class="hidden bg-emerald-100 hover:bg-emerald-200 text-emerald-700 font-bold py-4 px-4 rounded-xl transition text-sm">
+            ▶ Resume
+          </button>
+          <button id="stopSprintBtn" class="hidden col-span-2 sm:col-span-1 bg-slate-100 hover:bg-slate-200 text-slate-600 font-bold py-4 px-4 rounded-xl transition text-sm">
+            ⏹ Reset
+          </button>
+        </div>
+      </section>
+    </div>
+
+    <!-- REPORT CONTENT (PAYWALL) -->
+    <div id="tabReportContent" class="space-y-6 hidden">
+      <div class="bg-gradient-to-br from-rose-50 via-fuchsia-50 to-indigo-50 rounded-3xl p-6 sm:p-8 shadow-md border-2 border-rose-200 text-center space-y-5">
+        
+        <div>
+          <span class="text-xs font-extrabold uppercase tracking-widest bg-amber-100 text-amber-800 px-3 py-1 rounded-full border border-amber-200">
+            Exclusive Pro Preview
+          </span>
+          <h3 class="text-2xl font-extrabold text-slate-800 mt-3">Unlock Analytics Pro</h3>
+          <p class="text-xs sm:text-sm text-slate-600 max-w-md mx-auto leading-relaxed mt-1">
+            Get weekly/monthly analytics, custom date ranges, visual subject breakdown charts, and complete history logs.
+          </p>
+        </div>
+        
+        <!-- DASHBOARD PREVIEW IMAGE -->
+        <div class="relative bg-white rounded-2xl p-2 shadow-inner border border-rose-100 overflow-hidden mx-auto max-w-xl">
+           <img src="https://placehold.co/800x450/fdfafb/f472b6?text=Replace+With+Dashboard+Image.png" alt="Pro Dashboard Preview" class="w-full rounded-xl object-cover">
+           <p class="text-[10px] text-rose-400 absolute bottom-3 right-3 bg-white/90 px-2 py-1 rounded font-bold">1000187223.png</p>
+        </div>
+
+        <div class="pt-4 space-y-4">
+          <span class="inline-block bg-rose-500 text-white font-extrabold px-6 py-3 rounded-2xl shadow-sm text-base">
+            One-Time Fee • ₹399 only
+          </span>
+          
+          <div class="bg-white p-5 rounded-2xl border border-slate-200 shadow-sm max-w-sm mx-auto space-y-4">
+             <p class="text-xs font-bold text-slate-500 uppercase tracking-widest">Scan or Copy UPI</p>
+             
+             <!-- QR CODE IMAGE -->
+             <div class="relative inline-block">
+               <img src="https://placehold.co/300x300/fdfafb/f472b6?text=Replace+With+QR+Code.jpg" alt="UPI QR Code" class="w-40 h-40 mx-auto object-contain rounded-xl border border-slate-100 shadow-sm">
+               <p class="text-[10px] text-rose-400 absolute bottom-1 right-1 bg-white/90 px-2 py-0.5 rounded font-bold">1000187211.jpg</p>
+             </div>
+             
+             <!-- UPI ID COPY BAR -->
+             <div class="bg-slate-50 border border-slate-200 rounded-xl p-2 flex items-center justify-between gap-3">
+                <span class="text-sm font-bold text-slate-700 font-mono ml-2 truncate" id="upiIdText">reginacaeli@sbi</span>
+                <button onclick="window.copyUpiId()" class="bg-rose-100 hover:bg-rose-200 text-rose-600 px-4 py-2 rounded-lg text-xs font-bold transition flex-shrink-0">
+                  Copy ID
+                </button>
+             </div>
+          </div>
+
+          <div>
+            <a href="https://wa.me/?text=Hi%20Leah!%20I%20have%20completed%20the%20₹399%20Pro%20upgrade%20payment.%20Here%20is%20my%20screenshot:" target="_blank" class="block w-full max-w-sm mx-auto bg-slate-900 hover:bg-slate-800 text-white font-bold px-8 py-4 rounded-xl shadow transition text-sm">
+              ✨ I've Paid via UPI (Send Screenshot)
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <script type="module" src="app.js"></script>
+</body>
+</html>
